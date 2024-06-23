@@ -2,6 +2,10 @@
 
 ## apksigner tool Android App
 
+
+https://www.bouncycastle.org/download/bouncy-castle-java/
+
+
 echo sudo apt install zip apksigner zipalign
 
 cp app-release.apk original.zip
