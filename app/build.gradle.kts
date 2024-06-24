@@ -12,6 +12,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,7 +42,7 @@ android {
 }
 
 dependencies {
-
+    implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.appcompat:appcompat:1.6.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation ("org.conscrypt:conscrypt-android:2.5.2")
