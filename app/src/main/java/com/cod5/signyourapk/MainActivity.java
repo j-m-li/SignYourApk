@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         listDownloadsFiles();
     }
 
-            private void listDownloadsFiles()
+    private void listDownloadsFiles()
     {
         File d = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File[] lst = d.listFiles();
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 i++;
             }
         }
+
     }
     /* print result of permission request */
     public void onRequestPermissionsResult(int requestCode,
@@ -138,9 +139,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void onClickMe(View v) {
-        binding.sampleText.setText("Start...");
-        Toast.makeText(MainActivity.this, "Start signing", Toast.LENGTH_LONG).show();
 
+        if (binding.radio.getChildCount() < 1) {
+            listDownloadsFiles();
+            Toast.makeText(MainActivity.this, "please restart app.", Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            binding.sampleText.setText("Start...");
+            Toast.makeText(MainActivity.this, "Start signing", Toast.LENGTH_LONG).show();
+        }
         try {
             InputStream in = null;
             OutputStream out = null;
