@@ -83,7 +83,7 @@ public class ApkSignerTool {
         addProviders();
 
         String cmd = params[0];
-        try {
+        //try {
             if ("sign".equals(cmd)) {
                 sign(Arrays.copyOfRange(params, 1, params.length));
                 return;
@@ -106,11 +106,11 @@ public class ApkSignerTool {
                 throw new ParameterException(
                         "Unsupported command: " + cmd + ". See --help for supported commands");
             }
-        } catch (ParameterException | OptionsParser.OptionsException e) {
+        /*} catch (ParameterException | OptionsParser.OptionsException e) {
             System.err.println(e.getMessage());
             System.exit(1);
             return;
-        }
+        }*/
     }
 
     /**
@@ -394,15 +394,10 @@ public class ApkSignerTool {
         try {
             signer.loadPrivateKeyAndCerts(passwordRetriever);
         } catch (ParameterException e) {
-            System.err.println(
+            throw new RuntimeException(
                     "Failed to load signer \"" + signer.getName() + "\": " + e.getMessage());
-            System.exit(2);
-            return null;
         } catch (Exception e) {
-            System.err.println("Failed to load signer \"" + signer.getName() + "\"");
-            e.printStackTrace();
-            System.exit(2);
-            return null;
+            throw new RuntimeException("Failed to load signer \"" + signer.getName() + "\"");
         }
         String v1SigBasename;
         if (signer.getV1SigFileBasename() != null) {
@@ -634,12 +629,14 @@ public class ApkSignerTool {
         }
 
         if (!verified) {
-            System.exit(1);
-            return;
+            throw new ParameterException("not verified");
+            //System.exit(1);
+            //return;
         }
         if ((warningsTreatedAsErrors) && (warningsEncountered)) {
-            System.exit(1);
-            return;
+            throw new ParameterException("warnings");
+            //System.exit(1);
+            //return;
         }
     }
 
