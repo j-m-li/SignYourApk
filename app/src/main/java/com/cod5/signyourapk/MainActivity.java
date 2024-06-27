@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int STORAGE_PERMISSION_CODE = 189;
 
-    static {
-        System.loadLibrary("signyourapk");
-    }
+    //  static {
+    //    System.loadLibrary("signyourapk");
+    // }
 
     private ActivityMainBinding binding;
 
@@ -59,13 +59,12 @@ public class MainActivity extends AppCompatActivity {
         listDownloadsFiles();
     }
 
-    private void listDownloadsFiles()
-    {
+    private void listDownloadsFiles() {
         File d = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File[] lst = d.listFiles();
-        int i  = 0;
+        int i = 0;
         if (lst != null) {
-            for(File f: lst) {
+            for (File f : lst) {
                 if (f.getName().endsWith(".apk")) {
                     RadioButton r;
                     r = new RadioButton(this);
@@ -77,10 +76,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     /* print result of permission request */
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
-                                           @NonNull int [] grantResults) {
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private void askAllFilesPermission() {
         if (Build.VERSION.SDK_INT >= 30) {
             if (hasAllFilesPermission()) {
@@ -106,22 +107,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     @RequiresApi(Build.VERSION_CODES.R)
-    private boolean hasAllFilesPermission()  {
+    private boolean hasAllFilesPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return Environment.isExternalStorageManager();
         }
         return true;
     }
 
-    private boolean hasWriteStoragePermission()
-    {
+    private boolean hasWriteStoragePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return true;
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this,
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                    PackageManager.PERMISSION_GRANTED)
-            {
+                    PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         STORAGE_PERMISSION_CODE
                 );
@@ -131,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
 
     }
+
     public void onClickMe(View v) {
 
         if (binding.radio.getChildCount() < 1) {
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             InputStream in;
             OutputStream out;
             AssetManager assetManager = getAssets();
-            File cert = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/cert.bks");
+            File cert = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/cert.bks");
             if (!cert.exists()) {
                 in = assetManager.open("cert.bks");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 RadioButton rdb = binding.radio.findViewById(id);
                 ApkSignerTool.main(new String[]{"sign", "--min-sdk-version", "16", "--ks",
                         cert.getPath(),
-                        "--ks-pass", "pass:"+ binding.passwd.getText().toString(),
+                        "--ks-pass", "pass:" + binding.passwd.getText().toString(),
                         rdb.getText().toString()});
                 binding.sampleText.setText(R.string.apk_signed);
                 Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
@@ -181,14 +181,15 @@ public class MainActivity extends AppCompatActivity {
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
-        while((read = in.read(buffer)) != -1) {
+        while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 123 && resultCode == RESULT_OK) {
+        if (requestCode == 123 && resultCode == RESULT_OK) {
             binding.sampleText.setText(String.format("%s/app.apk", this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)));
         }
     }
