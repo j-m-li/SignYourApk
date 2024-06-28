@@ -9,11 +9,13 @@ package com.cod5.signyourapk;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.icu.util.Output;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -25,7 +27,9 @@ import androidx.core.app.ActivityCompat;
 
 import com.android.apksigner.ApkSignerTool;
 import com.cod5.signyourapk.databinding.ActivityMainBinding;
+import net.fornwall.apksigner.Main;
 
+import java.io.Console;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     RadioButton r;
                     r = new RadioButton(this);
                     r.setText(f.getAbsolutePath());
+                    r.setId(i);
                     binding.radio.addView(r, i);
                     i++;
                 }
@@ -145,28 +150,45 @@ public class MainActivity extends AppCompatActivity {
             InputStream in;
             OutputStream out;
             AssetManager assetManager = getAssets();
-            File cert = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/cert.bks");
-            if (!cert.exists()) {
-                in = assetManager.open("cert.bks");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    out = Files.newOutputStream(cert.toPath());
+
+            {
+                int id = binding.radio.getCheckedRadioButtonId();
+                if (id >= 0) {
+                    RadioButton rdb = binding.radio.findViewById(id);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        File cert = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/cert.bks");
+                        Log.d("SignV2:", cert.getPath() + " " + binding.passwd.getText().toString() + " " + rdb.getText().toString());
+                        if (!cert.exists()) {
+                            in = assetManager.open("cert.bks");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                out = Files.newOutputStream(cert.toPath());
+                            } else {
+                                out = new FileOutputStream(cert);
+                            }
+                            copyFile(in, out);
+                            out.close();
+                        }
+                        ApkSignerTool.main(new String[]{"sign", "--min-sdk-version", "16", "--ks",
+                                cert.getPath(),
+                                "--ks-pass", "pass:" + binding.passwd.getText().toString(),
+                                rdb.getText().toString()});
+                        binding.sampleText.setText(R.string.apk_signed_v2);
+                    } else {
+                        File cert = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/certificate.jks");
+                        Log.d("Sign(v1):", cert.getPath() + " " + binding.passwd.getText().toString() + " " + rdb.getText().toString());
+                        Main.main(new String[]{"-p", binding.passwd.getText().toString(),
+                                cert.getPath(),
+                                rdb.getText().toString(),
+                                rdb.getText().toString() + "-signed.apk"
+                        });
+                        binding.sampleText.setText(R.string.apk_signed);
+                    }
+
+                    Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
                 } else {
-                    out = new FileOutputStream(cert);
+                    binding.sampleText.setText(R.string.please_select_an_apk);
                 }
-                copyFile(in, out);
-                out.close();
-            }
-            int id = binding.radio.getCheckedRadioButtonId();
-            if (id >= 0) {
-                RadioButton rdb = binding.radio.findViewById(id);
-                ApkSignerTool.main(new String[]{"sign", "--min-sdk-version", "16", "--ks",
-                        cert.getPath(),
-                        "--ks-pass", "pass:" + binding.passwd.getText().toString(),
-                        rdb.getText().toString()});
-                binding.sampleText.setText(R.string.apk_signed);
-                Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
-            } else {
-                binding.sampleText.setText(R.string.please_select_an_apk);
             }
         } catch (Exception e) {
             e.printStackTrace();

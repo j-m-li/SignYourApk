@@ -15,3 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "SignYourApk"
 include(":app")
+include(":apksigner")
+include(":apksig")
+

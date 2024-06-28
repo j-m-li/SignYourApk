@@ -20,3 +20,4 @@ https://www.bouncycastle.org/download/bouncy-castle-java/
 
 ----------------
 
+python -m http.server --cgi 80

@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">SignYourApk</string>
-    <string name="sign_you_apk">Sign you APK</string>
+    <string name="sign_you_apk">Sign your APK</string>
     <string name="start">Start...</string>
-    <string name="apk_signed">APK signed !</string>
+    <string name="apk_signed">APK signed (v1) !</string>
+    <string name="apk_signed_v2">APK signed (v2) !</string>
     <string name="please_select_an_apk">please select an APK</string>
     <string name="failed">failed!</string>
 </resources>
