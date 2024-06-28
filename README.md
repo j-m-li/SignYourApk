@@ -9,10 +9,15 @@
 
 Original source code :
 
+https://github.com/fornwall/apksigner/
+
 https://deb.debian.org/debian/pool/main/a/android-platform-tools-apksig/android-platform-tools-apksig_31.0.2.orig.tar.gz
 
-
 https://www.bouncycastle.org/download/bouncy-castle-java/
+
+### License
+
+See individual files for license information.
 
 
 -----------------
@@ -21,3 +26,4 @@ https://www.bouncycastle.org/download/bouncy-castle-java/
 ----------------
 
 python -m http.server --cgi 80
+
