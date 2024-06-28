@@ -6,4 +6,6 @@
     <string name="apk_signed_v2">APK signed (v2) !</string>
     <string name="please_select_an_apk">please select an APK</string>
     <string name="failed">failed!</string>
+    <string name="the_password">12345678</string>
+    <string name="hello_world">Hello World!</string>
 </resources>

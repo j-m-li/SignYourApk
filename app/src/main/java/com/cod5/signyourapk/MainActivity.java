@@ -9,7 +9,6 @@ package com.cod5.signyourapk;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.icu.util.Output;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import com.android.apksigner.ApkSignerTool;
 import com.cod5.signyourapk.databinding.ActivityMainBinding;
 import net.fornwall.apksigner.Main;
 
-import java.io.Console;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     /* print result of permission request */
@@ -177,11 +174,11 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         File cert = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/certificate.jks");
                         Log.d("Sign(v1):", cert.getPath() + " " + binding.passwd.getText().toString() + " " + rdb.getText().toString());
-                        Main.main(new String[]{"-p", binding.passwd.getText().toString(),
+                        Main.main("-p", binding.passwd.getText().toString(),
                                 cert.getPath(),
                                 rdb.getText().toString(),
                                 rdb.getText().toString() + "-signed.apk"
-                        });
+                        );
                         binding.sampleText.setText(R.string.apk_signed);
                     }
 
