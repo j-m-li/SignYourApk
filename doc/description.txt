@@ -1,0 +1,25 @@
+SignYourApk
+===========
+
+Short
+------
+
+Digitally sign .apk files located in your Download directory using a certificate.
+
+
+Description
+-----------
+
+This application is intended for developers who want to modify APK files and install them directly on a smartphone.
+
+SignYourApk digitally signs Android APK files using a default certificate (password 12345678) or, if present, using your own certificate.
+
+Your certificate should be located in your Download directory and named "certificate.jks" on Android earlier than version 7.0 or named "cert.bks" for newer Android versions.
+
+This application is ad-free and its Java source code is freely available.
+
+It was developed as part of the PDOS (Public Domain Operating System) project by a global team of developers.
+
+For more information about the PDOS project, visit the website https://www.pdos.org
+
+

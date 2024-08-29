@@ -1,10 +1,10 @@
 # SignYourApk
 
-![](doc/logo.svg)
+![](doc/icon.svg)
 
 ## apksigner tool Android App
 
-![](doc/screenshot.png)
+![](doc/screenshot1.png)
 
 
 Original source code :
