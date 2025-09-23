@@ -27,18 +27,21 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+    experimentalProperties["android.ndk.suppressMinSdkVersionError"]=21
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
-        }
-    }
+    
     buildFeatures {
         viewBinding = true
+    }
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 }
 
@@ -48,7 +51,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("commons-cli:commons-cli:1.4")
     implementation("com.madgag.spongycastle:bcpkix-jdk15on:1.56.0.0")
-    implementation ("org.conscrypt:conscrypt-android:2.5.2")
+    implementation ("org.conscrypt:conscrypt-android:2.5.3")
     implementation ("org.bouncycastle:bcpkix-jdk15to18:1.68")
     implementation ("org.bouncycastle:bcprov-jdk15to18:1.68")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
