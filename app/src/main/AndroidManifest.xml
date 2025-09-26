@@ -21,7 +21,7 @@
         android:logo="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SignYourApk"
-        tools:targetApi="34"
+        tools:targetApi="36"
         android:name="androidx.multidex.MultiDexApplication"
         >
         <activity
