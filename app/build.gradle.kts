@@ -9,9 +9,9 @@ android {
     defaultConfig {
         applicationId = "com.cod5.signyourapk"
         minSdk = 16
-        targetSdk = 34
-        versionCode = 3
-        versionName = "1.1.1"
+        targetSdk = 36
+        versionCode = 4
+        versionName = "1.1.2"
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
